@@ -1,0 +1,55 @@
+
+
+Responsabilitati:
+    1. Spiridon Sergiu
+        - Logica engine-ului.
+        - Implementarea miscarilor pionilor
+        - Extinderea codului pentru alb/negru
+
+    2. Sapunaru Andrei
+        - Comunicarea cu xBoard
+        - Parsarea comenzilor
+
+    3. Gamanusi Cosmin
+        - Gestionarea metodelor din xBoard 
+
+
+    Clasa Moves se ocupa de gestionarea miscarilor primite de la XBoard(facute
+    de player) si de trimiterea miscarilor facute de Engine.
+
+    Pentru codarea tablei de joc m-am inspirat din tipul de codare FEN, dar am ales
+    sa reprezint toate spatiile goale cu * pentru simplicitate. Atunci cand primim
+    o miscare facuta de player se schimba in tabla de joc ce era la pozitia finala
+    cu ce piesa era la pozitia finala, iar daca piesa care a fost schimbata este a
+    engineului se schimba si pozitia obiectului de tipul Piece care defineste piesa
+    respectiva.
+
+    Pentru a returna miscari am creat un vector de obiecte de tipul Piece, care,
+    momentan, este populat doar de pioni si alegem random din acest array ce pion o
+    sa incercam sa miscam.
+
+    Metoda getValidMove() este metoda de baza pentru orice piesa, in care se alege
+    ce tip de miscare poate fi facuta de acea piesa si apoi se apeleaza functia
+    corespunzatoare acelei miscari. Pentru pioni am facut astfel incat, daca este
+    posibil sa ia o piesa, sa fie o sansa mai mare sa faca aceasta miscare. Asemanator,
+    este o sansa mult mai mare ca la prima miscare a pionului, acesta sa se miste 2
+    casute, in loc de una singura.
+
+    Pentru a putea juca si cu alb si cu negru, atunci cand se schimba piesele, parcurgem
+    stringul care reprezinta tabla de sah si punem in vectorul de piese ale Engineului
+    doar piese de culoarea ceruta.
+
+	Clasa xBoard este controlerul jocului si se ocupa de starea acestuia.
+	Face actiuni de genul, pune pauza, da comanda de o miscare noua, 
+	da comanda de aducere a unei mutari facute de player si seteaza culoarea curenta.
+
+    Etapa 3:
+
+    Am implementat algoritmul Alpha-Beta Pruning din generarea miscarilor random,
+    verificand daca miscarea respectiva s-a facut inainte sau nu. Folosim depth = 4
+    cand mergem pe ramurile arborilor. Pentru scorul unei stari, folosim matrici de
+    pozitie pentru fiecare piesa. Acestea spun in ce pozitii ar fi indicat ca piesele
+    sa se afle. Pentru fiecare piesa (a noastra) adaugam un anumit punctaj, iar pentru
+    piesele inamicului se scade.
+    De asemenea, pentru a facilita optiunea de 3Check, am pus un punctaj foarte mare
+    daca se poate da un sah si aceleasi puncte se scad daca ni se da un sah.
